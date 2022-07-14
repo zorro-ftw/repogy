@@ -7,9 +7,11 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<MainData>(context)
-        .getFullData("https://github.com/zorro-ftw/publist");
+    Provider.of<MainData>(context, listen: false)
+        .getFullData("https://github.com/zorro-ftw/publist/");
 
-    return const Center(child: Text('Hello World'),);
+    return const Center(
+      child: Text('Hello World'),
+    );
   }
 }
