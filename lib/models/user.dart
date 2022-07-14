@@ -1,3 +1,4 @@
+/// This is the class to create Users
 class User {
   User(
       {required this.userName,
@@ -5,8 +6,8 @@ class User {
       required this.avatarURL,
       required this.publicRepos,
       required this.followers,
-      required this.currentRepoContributions});
+       });
   String userName, avatarURL;
-  int publicRepos, followers, currentRepoContributions;
+  int publicRepos, followers ;
   DateTime createdAt;
 }

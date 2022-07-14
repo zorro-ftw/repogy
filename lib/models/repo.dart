@@ -6,7 +6,6 @@ class Repo {
       required this.owner,
       required this.private,
       required this.pullRequests,
-      required this.collaborators,
       this.lastPushDate,
       this.description});
   String name;
@@ -15,5 +14,5 @@ class Repo {
   bool private;
   int pullRequests;
   DateTime? lastPushDate;
-  List<User> collaborators;
+
 }
