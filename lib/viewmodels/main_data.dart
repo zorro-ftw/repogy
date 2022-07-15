@@ -6,11 +6,11 @@ import 'package:repogy/enums.dart';
 
 /// This class will be storing all necessary data to use with state management.
 class MainData extends ChangeNotifier {
-  late Repo currentRepo; // Variable to store current repo information
-  late User currentRepoOwner;
-  int? pullRequests; // Variable to store current repo owner information
-  late dynamic ownerRawData; // Variable to store raw data for User request
-  late dynamic repoRawData; // Variable to store raw data for Repo request
+  Repo? currentRepo; // Variable to store current repo information
+  User? currentRepoOwner;  // Variable to store current repo owner information
+  int? pullRequests;   // Variable to store current repo pull request numbers.
+  dynamic ownerRawData; // Variable to store raw data for User request
+  dynamic repoRawData; // Variable to store raw data for Repo request
   DataMode dataMode =
       DataMode.loading; // Setting dataMode to loading as default
   final RepoService _repoService = RepoService();
@@ -22,12 +22,21 @@ class MainData extends ChangeNotifier {
     dataMode = DataMode.loading;
     notifyListeners();
 
+    // Composing the final version for api request.
     composedRepoApi = apiLinkRepo + parseGivenUrl(url);
-    repoRawData = await _repoService.getRepoData(composedRepoApi);
-    if (repoRawData.runtimeType == bool && !repoRawData) {
+
+    // If url cannot be parsed, "dataMode" will be updated as fail in "parseGivenUrl" function.
+    // That's why, the control step below is required.
+    if(dataMode != DataMode.fail){
+      repoRawData = await _repoService.getRepoData(composedRepoApi);  // Requesting repo data.
+    }
+
+    // If data request was not successful "dataMode" will be updated as fail and process will be stopped.
+    if (repoRawData.runtimeType == bool && !repoRawData || dataMode == DataMode.fail) {
       dataMode = DataMode.fail;
       notifyListeners();
     } else {
+      // If we succeed getting data for the repo, we can continue with other data.
       await getOwnerData();
       await getPullRequests();
     }
@@ -40,7 +49,7 @@ class MainData extends ChangeNotifier {
         private: repoRawData["private"],
         pullRequests: pullRequests ?? 0,
       );
-      dataMode = DataMode.success;
+      dataMode = DataMode.success;  // Process is completed. "dataMode" can be marked as success now.
       notifyListeners();
     }
   }
@@ -70,9 +79,12 @@ class MainData extends ChangeNotifier {
   /// Parses URL given by user to obtain repository's and owner's name.
   String parseGivenUrl(String url) {
     // Splits the given string into two parts, we need the second part, meaning "/{owner}/{repo}"
-    List<String> split = url.split('github.com/');
-    print("SPLIT GELDİ = $split");
-
+    List<String>? split = url.split('github.com/');
+    if(split.length == 1 || split == null){
+      dataMode = DataMode.fail;
+      notifyListeners();
+      return split[0];
+    }
     // Adding a control step for a corner case i.e. "/" at the end
     if (split[1][split[1].length - 1] == "/") {
       split[1] = split[1].substring(0, split[1].length - 1);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repogy/constants.dart';
 
+/// Custom created TextField
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     Key? key,
@@ -31,7 +32,7 @@ class CustomTextField extends StatelessWidget {
                   onPressed: () => _textEditingController.clear(),
                   icon: const Icon(Icons.close), color: kPrimaryColorLight,),
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: kPrimaryColorLight, width: 1),
+            borderSide: BorderSide(color: kAccentColor, width: 1),
           ),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: kAccentColor, width: 2),

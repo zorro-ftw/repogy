@@ -92,7 +92,8 @@ class _MainScreenState extends State<MainScreen> {
                     onPressed: () async {
                       // Handling the case where button is clicked with wrong inputs.
                       if (!_textEditingController.text.contains("github.com")) {
-                        print("URL BOŞ");
+                        showToast(context,
+                            "Seems like URL does not meet requirements. Please check spelling and try again.");
                       } else {
                         Provider.of<MainData>(context, listen: false)
                             .getFullData(_textEditingController.text);
@@ -110,6 +111,19 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// Shows a toast (snackbar) message. Created for the first URL control.
+  void showToast(context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: kPrimaryColorDark,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+        content: Text(message, textAlign: TextAlign.center,),
       ),
     );
   }

@@ -10,7 +10,7 @@ class Repo {
       this.description});
   String name;
   String? description;
-  User owner;
+  User? owner;
   bool private;
   int pullRequests;
   DateTime? lastPushDate;
