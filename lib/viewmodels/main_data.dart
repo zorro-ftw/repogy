@@ -19,6 +19,9 @@ class MainData extends ChangeNotifier {
 
   /// Initiates the data collecting operation. Created to be called from MainScreen.
   Future getFullData(String url) async {
+    dataMode = DataMode.loading;
+    notifyListeners();
+
     composedRepoApi = apiLinkRepo + parseGivenUrl(url);
     repoRawData = await _repoService.getRepoData(composedRepoApi);
     if (repoRawData.runtimeType == bool && !repoRawData) {
@@ -27,22 +30,19 @@ class MainData extends ChangeNotifier {
     } else {
       await getOwnerData();
       await getPullRequests();
-
     }
 
     // If all data collecting is completed successfully, continue building related variables.
     if (dataMode != DataMode.fail) {
       currentRepo = Repo(
-          name: repoRawData["name"],
-          owner: currentRepoOwner,
-          private: repoRawData["private"],
-          pullRequests: pullRequests?? 0,
-          );
+        name: repoRawData["name"],
+        owner: currentRepoOwner,
+        private: repoRawData["private"],
+        pullRequests: pullRequests ?? 0,
+      );
       dataMode = DataMode.success;
       notifyListeners();
     }
-
-
   }
 
   /// Requests data of owner User.
@@ -71,6 +71,7 @@ class MainData extends ChangeNotifier {
   String parseGivenUrl(String url) {
     // Splits the given string into two parts, we need the second part, meaning "/{owner}/{repo}"
     List<String> split = url.split('github.com/');
+    print("SPLIT GELDİ = $split");
 
     // Adding a control step for a corner case i.e. "/" at the end
     if (split[1][split[1].length - 1] == "/") {
