@@ -31,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: kPrimaryColorDark,
         elevation: 1,
         title: const Text("Repogy"),
@@ -122,8 +123,13 @@ class _MainScreenState extends State<MainScreen> {
       SnackBar(
         behavior: SnackBarBehavior.floating,
         backgroundColor: kPrimaryColorDark,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
-        content: Text(message, textAlign: TextAlign.center,),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
