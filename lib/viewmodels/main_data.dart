@@ -48,6 +48,8 @@ class MainData extends ChangeNotifier {
         owner: currentRepoOwner,
         private: repoRawData["private"],
         pullRequests: pullRequests ?? 0,
+        description: repoRawData["description"],
+        lastPushDate: DateTime.parse(repoRawData["pushed_at"])
       );
       dataMode = DataMode.success;  // Process is completed. "dataMode" can be marked as success now.
       notifyListeners();
