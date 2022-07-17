@@ -15,6 +15,7 @@ class RepoScreen extends StatelessWidget {
       return Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: AppBar(
+          centerTitle: true,
           title: const Text("Loading"),
           backgroundColor: kPrimaryColorDark,
         ),
@@ -112,6 +113,7 @@ class RepoScreen extends StatelessWidget {
       return Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: AppBar(
+          centerTitle: true,
           title: const Text("Error"),
           backgroundColor: kPrimaryColorDark,
         ),
